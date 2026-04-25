@@ -1,0 +1,22 @@
+# macOS
+.DS_Store
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+
+# Local database
+citera.db
+*.db
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.swo

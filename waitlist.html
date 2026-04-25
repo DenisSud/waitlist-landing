@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Запись на консультацию — Citera Practice</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #fbfaf7;
+      --surface: #ffffff;
+      --surface-secondary: #f4f2ec;
+      --text-primary: #1a1a1a;
+      --text-secondary: #5a5a55;
+      --text-tertiary: #8a8a82;
+      --border: rgba(0, 0, 0, 0.12);
+      --border-strong: rgba(0, 0, 0, 0.28);
+      --accent: #1a1a1a;
+      --danger: #a32d2d;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-mono: 'JetBrains Mono', 'SF Mono', Monaco, monospace;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      font-weight: 400;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .firm-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 22px 32px;
+      border-bottom: 0.5px solid var(--border-strong);
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+    .firm-mark { display: flex; align-items: baseline; gap: 14px; }
+    .firm-name { font-size: 16px; font-weight: 500; letter-spacing: 0.01em; }
+    .firm-sub {
+      font-size: 11px; color: var(--text-tertiary);
+      letter-spacing: 0.08em; text-transform: uppercase;
+    }
+    .nav { display: flex; gap: 28px; align-items: center; }
+    .nav a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 13px;
+      transition: color 0.15s;
+    }
+    .nav a:hover { color: var(--text-primary); }
+    .nav a.active { color: var(--text-primary); font-weight: 500; }
+
+    .wait-frame {
+      max-width: 1080px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      min-height: 640px;
+    }
+    .wait-left {
+      padding: 64px 48px;
+      border-right: 0.5px solid var(--border);
+      background: var(--surface-secondary);
+    }
+    .wait-right { padding: 64px 48px; }
+
+    .wait-mark {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-tertiary);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding-top: 16px;
+      border-top: 1px solid var(--text-primary);
+      display: inline-block;
+      padding-right: 32px;
+      margin-bottom: 1.5rem;
+    }
+    .wait-title {
+      font-size: 30px;
+      font-weight: 500;
+      line-height: 1.25;
+      margin: 0 0 1.25rem;
+      letter-spacing: -0.01em;
+    }
+    .wait-lede {
+      font-size: 15px;
+      line-height: 1.65;
+      color: var(--text-secondary);
+      margin: 0 0 2.5rem;
+    }
+
+    .commitments { list-style: none; padding: 0; margin: 0; }
+    .commitments li {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: 12px;
+      padding: 16px 0;
+      border-top: 0.5px solid var(--border);
+      font-size: 13px;
+      line-height: 1.6;
+      color: var(--text-secondary);
+    }
+    .commitments li:last-child { border-bottom: 0.5px solid var(--border); }
+    .commitments .num {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-tertiary);
+      letter-spacing: 0.06em;
+    }
+
+    .form-block { margin-bottom: 1.75rem; }
+    .form-block label {
+      display: block;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+      margin-bottom: 10px;
+    }
+    .field {
+      width: 100%;
+      padding: 12px 0;
+      border: none;
+      border-bottom: 0.5px solid var(--border-strong);
+      background: transparent;
+      font-family: var(--font-sans);
+      font-size: 15px;
+      color: var(--text-primary);
+      border-radius: 0;
+      transition: border-color 0.15s;
+    }
+    .field:focus {
+      outline: none;
+      border-bottom-color: var(--text-primary);
+      border-bottom-width: 1px;
+    }
+    .field::placeholder { color: var(--text-tertiary); }
+    .field.error { border-bottom-color: var(--danger); border-bottom-width: 1px; }
+
+    select.field {
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='none' stroke='%238a8a82' stroke-width='1' d='M1 1l4 4 4-4'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 4px center;
+      padding-right: 24px;
+      cursor: pointer;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border: 0.5px solid var(--accent);
+      padding: 14px 22px;
+      font-size: 13px;
+      cursor: pointer;
+      border-radius: 0;
+      font-family: var(--font-sans);
+      font-weight: 500;
+      letter-spacing: 0.01em;
+      width: 100%;
+      transition: opacity 0.15s;
+    }
+    .btn-primary:hover { opacity: 0.85; }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+
+    .privacy-note {
+      font-size: 11px;
+      color: var(--text-tertiary);
+      line-height: 1.6;
+      margin-top: 1.25rem;
+    }
+
+    .form-error {
+      font-size: 12px;
+      color: var(--danger);
+      margin: 0.75rem 0 0;
+      min-height: 1em;
+    }
+
+    .success-card { padding: 0; }
+    .success-card .check-mark {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-tertiary);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      padding-top: 16px;
+      border-top: 1px solid var(--text-primary);
+      display: inline-block;
+      padding-right: 32px;
+      margin-bottom: 1.5rem;
+    }
+    .success-card h2 {
+      font-size: 26px;
+      font-weight: 500;
+      margin: 0 0 1.25rem;
+      line-height: 1.3;
+      letter-spacing: -0.005em;
+    }
+
+    .receipt {
+      background: var(--surface);
+      border: 0.5px solid var(--border-strong);
+      padding: 20px 24px;
+      margin: 1.5rem 0;
+    }
+    .receipt-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 0;
+      font-size: 12px;
+      border-bottom: 0.5px dashed var(--border);
+    }
+    .receipt-row:last-child { border-bottom: none; }
+    .receipt-label {
+      color: var(--text-tertiary);
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      font-size: 10px;
+    }
+    .receipt-val {
+      font-family: var(--font-mono);
+      font-size: 12px;
+      color: var(--text-primary);
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 1.5rem;
+      font-size: 13px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      border-bottom: 0.5px solid var(--border-strong);
+      padding-bottom: 2px;
+    }
+    .back-link:hover { color: var(--text-primary); }
+
+    @media (max-width: 720px) {
+      .firm-header { padding: 18px 20px; flex-wrap: wrap; gap: 12px; }
+      .wait-frame { grid-template-columns: 1fr; }
+      .wait-left, .wait-right { padding: 36px 20px; border-right: none; }
+      .wait-left { border-bottom: 0.5px solid var(--border); }
+      .wait-title { font-size: 24px; }
+      .form-row { grid-template-columns: 1fr; gap: 0; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="firm-header">
+    <div class="firm-mark">
+      <span class="firm-name">Citera Practice</span>
+      <span class="firm-sub">Бюро научной экспертизы</span>
+    </div>
+    <nav class="nav">
+      <a href="index.html">Практика</a>
+      <a href="waitlist.html" class="active">Запись на консультацию</a>
+    </nav>
+  </header>
+
+  <main class="wait-frame">
+
+    <aside class="wait-left">
+      <span class="wait-mark">§ A.00 — Предварительная запись</span>
+      <h2 class="wait-title">Доступ к практике сейчас открывается по приглашениям.</h2>
+      <p class="wait-lede">Мы принимаем ограниченное число клиентов в каждом месяце, чтобы каждое заключение проходило ручную проверку специалиста. Оставьте контактные данные — пришлём приглашение в порядке очереди.</p>
+
+      <ul class="commitments">
+        <li><span class="num">01</span><span>Один контакт от нас, без рекламных рассылок и анонсов.</span></li>
+        <li><span class="num">02</span><span>Никаких комиссий за регистрацию в листе ожидания.</span></li>
+        <li><span class="num">03</span><span>Возможность отказаться от очереди в любой момент по одной ссылке.</span></li>
+      </ul>
+    </aside>
+
+    <section class="wait-right">
+      <div id="form-view">
+        <div class="form-block">
+          <label for="email">Электронная почта</label>
+          <input type="email" id="email" class="field" placeholder="ivanov@msu.ru" autocomplete="email" required />
+        </div>
+
+        <div class="form-row">
+          <div class="form-block">
+            <label for="role">Профиль</label>
+            <select id="role" class="field">
+              <option value="">Выберите категорию</option>
+              <option value="student">Студент / магистрант</option>
+              <option value="postgrad">Аспирант / соискатель</option>
+              <option value="researcher">Научный сотрудник</option>
+              <option value="lecturer">Преподаватель</option>
+              <option value="other">Иное</option>
+            </select>
+          </div>
+          <div class="form-block">
+            <label for="domain">Область</label>
+            <select id="domain" class="field">
+              <option value="">Выберите направление</option>
+              <option value="natural">Естественные науки</option>
+              <option value="technical">Точные и технические</option>
+              <option value="social">Социальные и гуманитарные</option>
+              <option value="medical">Медицина и науки о жизни</option>
+              <option value="interdisciplinary">Междисциплинарное</option>
+            </select>
+          </div>
+        </div>
+
+        <button class="btn-primary" id="submit-btn">Отправить заявку</button>
+        <p class="form-error" id="form-error"></p>
+
+        <p class="privacy-note">Отправляя заявку, вы соглашаетесь с условиями обработки персональных данных. Контакты используются исключительно для уведомления о начале консультаций.</p>
+      </div>
+
+      <div id="success-view" style="display: none;" class="success-card">
+        <span class="check-mark">§ A.01 — Заявка принята</span>
+        <h2>Спасибо. Ваша заявка зафиксирована в журнале практики.</h2>
+        <p style="font-size: 14px; line-height: 1.65; color: var(--text-secondary); margin: 0 0 0.5rem;">Подтверждение направлено на указанный адрес. Мы свяжемся с вами по мере открытия мест в текущем приёмном цикле.</p>
+
+        <div class="receipt">
+          <div class="receipt-row"><span class="receipt-label">Адрес</span><span class="receipt-val" id="r-email">—</span></div>
+          <div class="receipt-row"><span class="receipt-label">Номер заявки</span><span class="receipt-val" id="r-ticket">—</span></div>
+          <div class="receipt-row"><span class="receipt-label">Дата</span><span class="receipt-val" id="r-date">—</span></div>
+          <div class="receipt-row"><span class="receipt-label">Цикл</span><span class="receipt-val">II квартал 2026</span></div>
+        </div>
+
+        <p class="privacy-note" style="margin-top: 0;">Сохраните номер заявки — он потребуется для связи с координатором практики.</p>
+
+        <a href="index.html" class="back-link">← Вернуться к описанию практики</a>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    // Backend endpoint — change if you deploy elsewhere.
+    const API_URL = 'http://localhost:8000/api/waitlist';
+
+    const $ = (sel) => document.querySelector(sel);
+    const emailField = $('#email');
+    const roleField = $('#role');
+    const domainField = $('#domain');
+    const submitBtn = $('#submit-btn');
+    const errorEl = $('#form-error');
+    const formView = $('#form-view');
+    const successView = $('#success-view');
+
+    function isValidEmail(s) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(s);
+    }
+
+    function showError(msg) {
+      errorEl.textContent = msg;
+      emailField.classList.add('error');
+    }
+    function clearError() {
+      errorEl.textContent = '';
+      emailField.classList.remove('error');
+    }
+
+    emailField.addEventListener('input', clearError);
+
+    submitBtn.addEventListener('click', async () => {
+      const email = emailField.value.trim();
+      if (!email) { showError('Укажите электронную почту.'); emailField.focus(); return; }
+      if (!isValidEmail(email)) { showError('Адрес введён некорректно.'); emailField.focus(); return; }
+
+      clearError();
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Отправка…';
+
+      try {
+        const res = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            email,
+            role: roleField.value || null,
+            domain: domainField.value || null,
+          }),
+        });
+
+        if (!res.ok) {
+          const data = await res.json().catch(() => ({}));
+          if (res.status === 409) {
+            showError('Этот адрес уже зарегистрирован в листе ожидания.');
+          } else {
+            showError(data.detail || 'Не удалось отправить заявку. Попробуйте позже.');
+          }
+          submitBtn.disabled = false;
+          submitBtn.textContent = 'Отправить заявку';
+          return;
+        }
+
+        const data = await res.json();
+
+        // Render success view
+        $('#r-email').textContent = data.email;
+        $('#r-ticket').textContent = data.ticket_id;
+        $('#r-date').textContent = data.created_date;
+
+        formView.style.display = 'none';
+        successView.style.display = 'block';
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } catch (err) {
+        console.error(err);
+        showError('Сервер недоступен. Проверьте подключение и попробуйте снова.');
+        submitBtn.disabled = false;
+        submitBtn.textContent = 'Отправить заявку';
+      }
+    });
+  </script>
+
+</body>
+</html>

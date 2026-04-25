@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Citera Practice — Бюро научной экспертизы</title>
+  <meta name="description" content="Профессиональная экспертиза научных и квалификационных работ: содержательное рецензирование, анализ библиографии, структурная редактура." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg: #fbfaf7;
+      --surface: #ffffff;
+      --surface-secondary: #f4f2ec;
+      --text-primary: #1a1a1a;
+      --text-secondary: #5a5a55;
+      --text-tertiary: #8a8a82;
+      --border: rgba(0, 0, 0, 0.12);
+      --border-strong: rgba(0, 0, 0, 0.28);
+      --accent: #1a1a1a;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-mono: 'JetBrains Mono', 'SF Mono', Monaco, monospace;
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: var(--bg);
+      color: var(--text-primary);
+      font-family: var(--font-sans);
+      font-weight: 400;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+
+    .container {
+      max-width: 1080px;
+      margin: 0 auto;
+      padding: 0 32px;
+    }
+
+    /* Firm header */
+    .firm-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 22px 32px;
+      border-bottom: 0.5px solid var(--border-strong);
+      max-width: 1080px;
+      margin: 0 auto;
+    }
+    .firm-mark { display: flex; align-items: baseline; gap: 14px; }
+    .firm-name { font-size: 16px; font-weight: 500; letter-spacing: 0.01em; }
+    .firm-sub {
+      font-size: 11px;
+      color: var(--text-tertiary);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+    .nav { display: flex; gap: 28px; align-items: center; }
+    .nav a {
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-size: 13px;
+      transition: color 0.15s;
+    }
+    .nav a:hover { color: var(--text-primary); }
+    .nav a.active { color: var(--text-primary); font-weight: 500; }
+
+    .frame { padding: 56px 32px 40px; max-width: 1080px; margin: 0 auto; }
+
+    /* Hero */
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 100px 1fr;
+      gap: 40px;
+      margin-bottom: 4rem;
+    }
+    .rail {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-tertiary);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding-top: 16px;
+      border-top: 1px solid var(--text-primary);
+      line-height: 1.6;
+    }
+    .hero-content h1 {
+      font-size: 42px;
+      font-weight: 500;
+      line-height: 1.15;
+      letter-spacing: -0.015em;
+      margin: 0 0 1.5rem;
+      max-width: 640px;
+    }
+    .hero-content .lede {
+      font-size: 17px;
+      line-height: 1.65;
+      color: var(--text-secondary);
+      margin: 0 0 2rem;
+      max-width: 580px;
+    }
+    .cta-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+
+    .btn-primary, .btn-ghost {
+      padding: 12px 22px;
+      font-size: 13px;
+      cursor: pointer;
+      border-radius: 0;
+      font-family: var(--font-sans);
+      letter-spacing: 0.01em;
+      transition: all 0.15s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-primary {
+      background: var(--accent);
+      color: #fff;
+      border: 0.5px solid var(--accent);
+      font-weight: 500;
+    }
+    .btn-primary:hover { opacity: 0.85; }
+    .btn-ghost {
+      background: transparent;
+      color: var(--text-primary);
+      border: 0.5px solid var(--border-strong);
+    }
+    .btn-ghost:hover { background: var(--surface-secondary); }
+
+    /* Stats strip */
+    .stats-strip {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      border-top: 1px solid var(--text-primary);
+      border-bottom: 0.5px solid var(--border);
+      margin: 0 0 4rem;
+      padding: 28px 0;
+    }
+    .stat { padding: 0 24px; border-right: 0.5px solid var(--border); }
+    .stats-strip .stat:first-child { padding-left: 0; }
+    .stats-strip .stat:last-child { border-right: none; }
+    .stat-num {
+      font-size: 32px;
+      font-weight: 500;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      margin-bottom: 10px;
+    }
+    .stat-label {
+      font-size: 11px;
+      color: var(--text-secondary);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      line-height: 1.45;
+    }
+
+    .section-title {
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--text-tertiary);
+      margin-bottom: 1.25rem;
+      padding-top: 16px;
+      border-top: 1px solid var(--text-primary);
+      display: inline-block;
+      padding-right: 32px;
+    }
+    h2.section-h {
+      font-size: 26px;
+      font-weight: 500;
+      margin: 0 0 2.5rem;
+      max-width: 560px;
+      line-height: 1.3;
+      letter-spacing: -0.005em;
+    }
+
+    /* Practice grid */
+    .practice-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 0;
+      border-top: 0.5px solid var(--border);
+    }
+    .practice {
+      padding: 28px 0;
+      border-bottom: 0.5px solid var(--border);
+      display: grid;
+      grid-template-columns: 70px 1fr;
+      gap: 16px;
+    }
+    .practice:nth-child(odd) {
+      padding-right: 36px;
+      border-right: 0.5px solid var(--border);
+    }
+    .practice:nth-child(even) { padding-left: 36px; }
+    .pr-num {
+      font-family: var(--font-mono);
+      font-size: 11px;
+      color: var(--text-tertiary);
+      letter-spacing: 0.06em;
+      padding-top: 4px;
+    }
+    .pr-title { font-size: 16px; font-weight: 500; margin: 0 0 8px; }
+    .pr-body {
+      font-size: 14px;
+      line-height: 1.6;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    /* Process */
+    .process {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 0;
+      margin: 2rem 0 0;
+    }
+    .step {
+      padding: 20px 24px 20px 0;
+      border-top: 0.5px solid var(--border);
+    }
+    .step:not(:last-child) { border-right: 0.5px solid var(--border); padding-right: 24px; }
+    .step:not(:first-child) { padding-left: 24px; }
+    .step-num {
+      font-family: var(--font-mono);
+      font-size: 10px;
+      color: var(--text-tertiary);
+      letter-spacing: 0.1em;
+      margin-bottom: 12px;
+    }
+    .step-title { font-size: 14px; font-weight: 500; margin: 0 0 6px; }
+    .step-body {
+      font-size: 13px;
+      line-height: 1.55;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    .firm-footer {
+      margin-top: 4rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--text-primary);
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--text-tertiary);
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+
+    /* Mobile */
+    @media (max-width: 720px) {
+      .firm-header { padding: 18px 20px; flex-wrap: wrap; gap: 12px; }
+      .frame { padding: 40px 20px 32px; }
+      .hero-grid { grid-template-columns: 1fr; gap: 20px; }
+      .rail { display: inline-block; padding-right: 20px; }
+      .hero-content h1 { font-size: 30px; }
+      .stats-strip { grid-template-columns: repeat(2, 1fr); }
+      .stat { padding: 16px 16px; border-bottom: 0.5px solid var(--border); }
+      .stats-strip .stat:nth-child(2) { border-right: none; }
+      .stats-strip .stat:nth-child(3) { padding-left: 0; }
+      .practice-grid { grid-template-columns: 1fr; }
+      .practice:nth-child(odd) { padding-right: 0; border-right: none; }
+      .practice:nth-child(even) { padding-left: 0; }
+      .process { grid-template-columns: 1fr 1fr; }
+      .step { padding: 16px !important; }
+      .step:nth-child(2) { border-right: none !important; }
+      h2.section-h { font-size: 22px; }
+      .firm-footer { flex-direction: column; gap: 8px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header class="firm-header">
+    <div class="firm-mark">
+      <span class="firm-name">Citera Practice</span>
+      <span class="firm-sub">Бюро научной экспертизы</span>
+    </div>
+    <nav class="nav">
+      <a href="index.html" class="active">Практика</a>
+      <a href="waitlist.html">Запись на консультацию</a>
+    </nav>
+  </header>
+
+  <main class="frame">
+
+    <section class="hero-grid">
+      <div class="rail">§ 01<br/>Резюме</div>
+      <div class="hero-content">
+        <h1>Профессиональная экспертиза научных и квалификационных работ.</h1>
+        <p class="lede">Citera оказывает консультационные услуги авторам диссертаций, статей и проектных заявок: содержательное рецензирование, анализ библиографии, структурная редактура и проверка соответствия требованиям издания или совета.</p>
+        <div class="cta-row">
+          <a href="waitlist.html" class="btn-primary">Записаться на консультацию</a>
+          <a href="#process" class="btn-ghost">Узнать о порядке работы</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="stats-strip">
+      <div class="stat">
+        <div class="stat-num">12</div>
+        <div class="stat-label">Областей<br/>специализации</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">48&nbsp;ч</div>
+        <div class="stat-label">Срок выдачи<br/>предварительного отзыва</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">3</div>
+        <div class="stat-label">Уровня глубины<br/>экспертизы</div>
+      </div>
+      <div class="stat">
+        <div class="stat-num">100%</div>
+        <div class="stat-label">Конфиденциальность<br/>и анонимность</div>
+      </div>
+    </section>
+
+    <section>
+      <span class="section-title">§ 02 — Направления практики</span>
+      <h2 class="section-h">Четыре линии экспертизы, которые покрывают весь жизненный цикл работы — от черновика до подачи в журнал или совет.</h2>
+
+      <div class="practice-grid">
+        <article class="practice">
+          <div class="pr-num">A.01</div>
+          <div>
+            <div class="pr-title">Содержательное рецензирование</div>
+            <p class="pr-body">Оценка обоснованности гипотезы, корректности методологии, согласованности выводов с полученными данными и научной новизны работы.</p>
+          </div>
+        </article>
+        <article class="practice">
+          <div class="pr-num">A.02</div>
+          <div>
+            <div class="pr-title">Аудит ссылочного аппарата</div>
+            <p class="pr-body">Проверка соответствия ссылки утверждению, актуальности и авторитетности источников, полноты библиографии и её оформления по ГОСТ или APA.</p>
+          </div>
+        </article>
+        <article class="practice">
+          <div class="pr-num">A.03</div>
+          <div>
+            <div class="pr-title">Структурная редактура</div>
+            <p class="pr-body">Анализ композиции и логики изложения, баланса разделов, корректности переходов и соответствия структуры требованиям издания или диссертационного совета.</p>
+          </div>
+        </article>
+        <article class="practice">
+          <div class="pr-num">A.04</div>
+          <div>
+            <div class="pr-title">Издательская подготовка</div>
+            <p class="pr-body">Унификация терминологии, проверка формул и обозначений, оформление таблиц, рисунков и подписей в соответствии с требованиями целевого журнала.</p>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <section id="process" style="margin-top: 4rem;">
+      <span class="section-title">§ 03 — Порядок работы</span>
+      <h2 class="section-h">Как устроена консультация.</h2>
+
+      <div class="process">
+        <div class="step">
+          <div class="step-num">ШАГ 01</div>
+          <div class="step-title">Заявка</div>
+          <p class="step-body">Вы загружаете рукопись и указываете целевое издание или совет.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">ШАГ 02</div>
+          <div class="step-title">Распределение</div>
+          <p class="step-body">Работу принимает специалист подходящей предметной области.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">ШАГ 03</div>
+          <div class="step-title">Заключение</div>
+          <p class="step-body">Вы получаете структурированный отчёт по четырём направлениям практики.</p>
+        </div>
+        <div class="step">
+          <div class="step-num">ШАГ 04</div>
+          <div class="step-title">Доработка</div>
+          <p class="step-body">При необходимости — повторная экспертиза после внесения правок.</p>
+        </div>
+      </div>
+    </section>
+
+    <footer class="firm-footer">
+      <span>Citera Practice · Москва, 2026</span>
+      <span>Все материалы защищены соглашением о конфиденциальности</span>
+    </footer>
+
+  </main>
+
+</body>
+</html>
