@@ -7,272 +7,392 @@
   <meta name="description" content="Профессиональная экспертиза научных и квалификационных работ: содержательное рецензирование, анализ библиографии, структурная редактура." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #fbfaf7;
-      --surface: #ffffff;
-      --surface-secondary: #f4f2ec;
-      --text-primary: #1a1a1a;
-      --text-secondary: #5a5a55;
-      --text-tertiary: #8a8a82;
-      --border: rgba(0, 0, 0, 0.12);
-      --border-strong: rgba(0, 0, 0, 0.28);
-      --accent: #1a1a1a;
-      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --bg: #f4efe6;
+      --bg-grain: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      --surface: #faf6ee;
+      --surface-warm: #efe9dc;
+      --text-primary: #1c1e17;
+      --text-secondary: #5a5d4f;
+      --text-tertiary: #8a8d7e;
+      --border: rgba(28, 30, 23, 0.10);
+      --border-strong: rgba(28, 30, 23, 0.22);
+      --accent: #3d5a3e;
+      --accent-hover: #4e7050;
+      --accent-subtle: rgba(61, 90, 62, 0.08);
+      --accent-ghost: rgba(61, 90, 62, 0.06);
+      --danger: #a32d2d;
+      --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+      --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       --font-mono: 'JetBrains Mono', 'SF Mono', Monaco, monospace;
     }
 
-    * { box-sizing: border-box; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
 
     html, body {
-      margin: 0;
-      padding: 0;
       background: var(--bg);
       color: var(--text-primary);
       font-family: var(--font-sans);
       font-weight: 400;
-      line-height: 1.5;
+      line-height: 1.55;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
 
-    .container {
-      max-width: 1080px;
-      margin: 0 auto;
-      padding: 0 32px;
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: var(--bg-grain);
+      opacity: 0.14;
+      mix-blend-mode: multiply;
+      pointer-events: none;
+      z-index: 0;
     }
 
-    /* Firm header */
+    body > * { position: relative; z-index: 1; }
+
+    /* ── Header ── */
     .firm-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 22px 32px;
-      border-bottom: 0.5px solid var(--border-strong);
-      max-width: 1080px;
-      margin: 0 auto;
+      padding: 20px 48px;
+      border-bottom: 1px solid var(--border-strong);
+      backdrop-filter: blur(12px);
+      background: rgba(244, 239, 230, 0.8);
     }
-    .firm-mark { display: flex; align-items: baseline; gap: 14px; }
-    .firm-name { font-size: 16px; font-weight: 500; letter-spacing: 0.01em; }
+    .firm-mark { display: flex; align-items: center; gap: 16px; }
+    .firm-logo {
+      width: 36px; height: 36px;
+      background: var(--accent);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      color: #faf6ee;
+      font-family: var(--font-serif);
+      font-size: 18px; font-weight: 600;
+      letter-spacing: -0.02em;
+      flex-shrink: 0;
+    }
+    .firm-text { display: flex; align-items: baseline; gap: 12px; }
+    .firm-name {
+      font-family: var(--font-serif);
+      font-size: 17px; font-weight: 500;
+      letter-spacing: -0.01em;
+    }
     .firm-sub {
-      font-size: 11px;
+      font-size: 10px;
       color: var(--text-tertiary);
-      letter-spacing: 0.08em;
+      letter-spacing: 0.10em;
       text-transform: uppercase;
     }
-    .nav { display: flex; gap: 28px; align-items: center; }
+    .nav { display: flex; gap: 32px; align-items: center; }
     .nav a {
       color: var(--text-secondary);
       text-decoration: none;
-      font-size: 13px;
-      transition: color 0.15s;
+      font-size: 13px; font-weight: 400;
+      letter-spacing: 0.01em;
+      transition: color 0.2s;
     }
-    .nav a:hover { color: var(--text-primary); }
-    .nav a.active { color: var(--text-primary); font-weight: 500; }
+    .nav a:hover { color: var(--accent); }
+    .nav a.active {
+      color: var(--accent);
+      font-weight: 500;
+    }
 
-    .frame { padding: 56px 32px 40px; max-width: 1080px; margin: 0 auto; }
+    .frame {
+      max-width: 1320px;
+      margin: 0 auto;
+      padding: 64px 48px 48px;
+    }
 
-    /* Hero */
+    /* ── Hero ── */
     .hero-grid {
       display: grid;
-      grid-template-columns: 100px 1fr;
-      gap: 40px;
-      margin-bottom: 4rem;
+      grid-template-columns: 120px 1fr;
+      gap: 48px;
+      margin-bottom: 5rem;
     }
     .rail {
       font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--text-tertiary);
-      letter-spacing: 0.1em;
+      font-size: 10px;
+      color: var(--accent);
+      letter-spacing: 0.12em;
       text-transform: uppercase;
       padding-top: 16px;
-      border-top: 1px solid var(--text-primary);
-      line-height: 1.6;
+      border-top: 2px solid var(--accent);
+      line-height: 1.7;
     }
     .hero-content h1 {
-      font-size: 42px;
+      font-family: var(--font-serif);
+      font-size: 52px;
       font-weight: 500;
-      line-height: 1.15;
-      letter-spacing: -0.015em;
-      margin: 0 0 1.5rem;
-      max-width: 640px;
+      line-height: 1.12;
+      letter-spacing: -0.02em;
+      margin: 0 0 1.75rem;
+      max-width: 780px;
+      color: var(--text-primary);
+    }
+    .hero-content h1 em {
+      font-style: normal;
+      color: var(--accent);
     }
     .hero-content .lede {
-      font-size: 17px;
-      line-height: 1.65;
+      font-size: 17px; font-weight: 300;
+      line-height: 1.7;
       color: var(--text-secondary);
-      margin: 0 0 2rem;
-      max-width: 580px;
+      margin: 0 0 2.5rem;
+      max-width: 620px;
     }
-    .cta-row { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+    .cta-row { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
 
     .btn-primary, .btn-ghost {
-      padding: 12px 22px;
-      font-size: 13px;
+      display: inline-flex; align-items: center; justify-content: center;
+      padding: 14px 28px;
+      font-size: 13px; font-weight: 500;
       cursor: pointer;
-      border-radius: 0;
+      border-radius: 10px;
       font-family: var(--font-sans);
-      letter-spacing: 0.01em;
-      transition: all 0.15s;
+      letter-spacing: 0.02em;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
       text-decoration: none;
-      display: inline-block;
+      border: none;
     }
     .btn-primary {
       background: var(--accent);
-      color: #fff;
-      border: 0.5px solid var(--accent);
-      font-weight: 500;
+      color: #faf6ee;
+      box-shadow: 0 1px 3px rgba(61,90,62,0.15), 0 4px 12px rgba(61,90,62,0.10);
     }
-    .btn-primary:hover { opacity: 0.85; }
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 2px 6px rgba(61,90,62,0.20), 0 8px 20px rgba(61,90,62,0.15);
+    }
     .btn-ghost {
-      background: transparent;
+      background: var(--surface);
       color: var(--text-primary);
-      border: 0.5px solid var(--border-strong);
+      border: 1px solid var(--border-strong);
     }
-    .btn-ghost:hover { background: var(--surface-secondary); }
+    .btn-ghost:hover {
+      background: var(--accent-subtle);
+      border-color: var(--accent);
+      color: var(--accent);
+    }
 
-    /* Stats strip */
+    /* ── Stats strip ── */
     .stats-strip {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 0;
-      border-top: 1px solid var(--text-primary);
-      border-bottom: 0.5px solid var(--border);
-      margin: 0 0 4rem;
-      padding: 28px 0;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      margin: 0 0 5rem;
+      overflow: hidden;
     }
-    .stat { padding: 0 24px; border-right: 0.5px solid var(--border); }
-    .stats-strip .stat:first-child { padding-left: 0; }
-    .stats-strip .stat:last-child { border-right: none; }
+    .stat {
+      padding: 32px 36px;
+      border-right: 1px solid var(--border);
+      transition: background 0.2s;
+    }
+    .stat:last-child { border-right: none; }
+    .stat:hover { background: var(--accent-ghost); }
     .stat-num {
-      font-size: 32px;
-      font-weight: 500;
+      font-family: var(--font-sans);
+      font-size: 38px;
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
       letter-spacing: -0.02em;
       line-height: 1;
-      margin-bottom: 10px;
+      margin-bottom: 12px;
+      color: var(--accent);
     }
     .stat-label {
       font-size: 11px;
       color: var(--text-secondary);
-      letter-spacing: 0.05em;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
-      line-height: 1.45;
+      line-height: 1.5;
     }
 
+    /* ── Section titles ── */
     .section-title {
-      font-size: 11px;
-      letter-spacing: 0.12em;
+      font-size: 10px; font-weight: 500;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: var(--text-tertiary);
+      color: var(--accent);
       margin-bottom: 1.25rem;
       padding-top: 16px;
-      border-top: 1px solid var(--text-primary);
+      border-top: 2px solid var(--accent);
       display: inline-block;
       padding-right: 32px;
     }
     h2.section-h {
-      font-size: 26px;
+      font-family: var(--font-serif);
+      font-size: 32px;
       font-weight: 500;
-      margin: 0 0 2.5rem;
-      max-width: 560px;
+      margin: 0 0 3rem;
+      max-width: 640px;
       line-height: 1.3;
-      letter-spacing: -0.005em;
+      letter-spacing: -0.01em;
     }
 
-    /* Practice grid */
+    /* ── Practice grid ── */
     .practice-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
       gap: 0;
-      border-top: 0.5px solid var(--border);
     }
     .practice {
-      padding: 28px 0;
-      border-bottom: 0.5px solid var(--border);
+      padding: 32px 36px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--surface);
+      margin: 0 14px 14px 0;
       display: grid;
-      grid-template-columns: 70px 1fr;
-      gap: 16px;
+      grid-template-columns: 56px 1fr;
+      gap: 14px;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
     }
-    .practice:nth-child(odd) {
-      padding-right: 36px;
-      border-right: 0.5px solid var(--border);
+    .practice:nth-child(even) { margin-right: 0; }
+    .practice:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 16px rgba(0,0,0,0.06);
+      border-color: var(--accent);
     }
-    .practice:nth-child(even) { padding-left: 36px; }
     .pr-num {
       font-family: var(--font-mono);
-      font-size: 11px;
-      color: var(--text-tertiary);
+      font-size: 10px;
+      color: var(--accent);
       letter-spacing: 0.06em;
-      padding-top: 4px;
+      padding-top: 5px;
     }
-    .pr-title { font-size: 16px; font-weight: 500; margin: 0 0 8px; }
+    .pr-icon {
+      width: 40px; height: 40px;
+      background: var(--accent-subtle);
+      border-radius: 10px;
+      display: flex; align-items: center; justify-content: center;
+      margin-bottom: 10px;
+    }
+    .pr-icon svg {
+      width: 18px; height: 18px;
+      stroke: var(--accent);
+      stroke-width: 1.5;
+      fill: none;
+    }
+    .pr-title {
+      font-family: var(--font-serif);
+      font-size: 17px; font-weight: 500;
+      margin: 0 0 8px;
+    }
     .pr-body {
-      font-size: 14px;
+      font-size: 14px; font-weight: 300;
+      line-height: 1.65;
+      color: var(--text-secondary);
+      margin: 0;
+    }
+
+    /* ── Process ── */
+    .process {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 14px;
+      margin: 2rem 0 0;
+    }
+    .step {
+      padding: 28px 24px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: var(--surface);
+      transition: all 0.25s;
+    }
+    .step:hover {
+      border-color: var(--accent);
+      background: var(--accent-ghost);
+    }
+    .step-num {
+      font-family: var(--font-mono);
+      font-size: 9px;
+      color: var(--accent);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      display: inline-block;
+      background: var(--accent-subtle);
+      padding: 4px 10px;
+      border-radius: 6px;
+    }
+    .step-title {
+      font-family: var(--font-serif);
+      font-size: 15px; font-weight: 500;
+      margin: 0 0 8px;
+    }
+    .step-body {
+      font-size: 13px; font-weight: 300;
       line-height: 1.6;
       color: var(--text-secondary);
       margin: 0;
     }
 
-    /* Process */
-    .process {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0;
-      margin: 2rem 0 0;
+    /* ── Decorative divider ── */
+    .divider {
+      display: flex; align-items: center; gap: 16px;
+      margin: 5rem 0 3.5rem;
     }
-    .step {
-      padding: 20px 24px 20px 0;
-      border-top: 0.5px solid var(--border);
-    }
-    .step:not(:last-child) { border-right: 0.5px solid var(--border); padding-right: 24px; }
-    .step:not(:first-child) { padding-left: 24px; }
-    .step-num {
-      font-family: var(--font-mono);
-      font-size: 10px;
-      color: var(--text-tertiary);
-      letter-spacing: 0.1em;
-      margin-bottom: 12px;
-    }
-    .step-title { font-size: 14px; font-weight: 500; margin: 0 0 6px; }
-    .step-body {
-      font-size: 13px;
-      line-height: 1.55;
-      color: var(--text-secondary);
-      margin: 0;
+    .divider-line { flex: 1; height: 1px; background: var(--border); }
+    .divider-diamond {
+      width: 8px; height: 8px;
+      background: var(--accent);
+      transform: rotate(45deg);
+      flex-shrink: 0;
+      opacity: 0.6;
     }
 
+    /* ── Footer ── */
     .firm-footer {
-      margin-top: 4rem;
-      padding-top: 1.5rem;
-      border-top: 1px solid var(--text-primary);
+      margin-top: 5rem;
+      padding: 24px 0;
+      border-top: 2px solid var(--accent);
       display: flex;
       justify-content: space-between;
+      align-items: center;
       font-size: 11px;
       color: var(--text-tertiary);
       letter-spacing: 0.05em;
       text-transform: uppercase;
     }
+    .firm-footer a {
+      color: var(--accent);
+      text-decoration: none;
+    }
+    .firm-footer a:hover { text-decoration: underline; }
 
-    /* Mobile */
-    @media (max-width: 720px) {
-      .firm-header { padding: 18px 20px; flex-wrap: wrap; gap: 12px; }
+    /* ── Mobile ── */
+    @media (max-width: 900px) {
+      .firm-header { padding: 16px 20px; flex-wrap: wrap; gap: 12px; }
       .frame { padding: 40px 20px 32px; }
       .hero-grid { grid-template-columns: 1fr; gap: 20px; }
       .rail { display: inline-block; padding-right: 20px; }
-      .hero-content h1 { font-size: 30px; }
-      .stats-strip { grid-template-columns: repeat(2, 1fr); }
-      .stat { padding: 16px 16px; border-bottom: 0.5px solid var(--border); }
-      .stats-strip .stat:nth-child(2) { border-right: none; }
-      .stats-strip .stat:nth-child(3) { padding-left: 0; }
+      .hero-content h1 { font-size: 34px; }
+      .stats-strip { grid-template-columns: repeat(2, 1fr); border-radius: 12px; }
+      .stat { padding: 24px 20px; }
+      .stat:nth-child(2) { border-right: none; }
+      .stat:nth-child(1), .stat:nth-child(2) { border-bottom: 1px solid var(--border); }
       .practice-grid { grid-template-columns: 1fr; }
-      .practice:nth-child(odd) { padding-right: 0; border-right: none; }
-      .practice:nth-child(even) { padding-left: 0; }
-      .process { grid-template-columns: 1fr 1fr; }
-      .step { padding: 16px !important; }
-      .step:nth-child(2) { border-right: none !important; }
-      h2.section-h { font-size: 22px; }
-      .firm-footer { flex-direction: column; gap: 8px; }
+      .practice { margin-right: 0; }
+      .process { grid-template-columns: 1fr 1fr; gap: 10px; }
+      .firm-footer { flex-direction: column; gap: 8px; text-align: center; }
+    }
+
+    @media (max-width: 520px) {
+      .process { grid-template-columns: 1fr; }
+      .hero-content h1 { font-size: 28px; }
+      .stats-strip { grid-template-columns: 1fr; }
+      .stat { border-right: none !important; }
+      .stat:nth-child(n) { border-bottom: 1px solid var(--border); }
+      .stat:last-child { border-bottom: none; }
     }
   </style>
 </head>
@@ -280,8 +400,11 @@
 
   <header class="firm-header">
     <div class="firm-mark">
-      <span class="firm-name">Citera Practice</span>
-      <span class="firm-sub">Бюро научной экспертизы</span>
+      <div class="firm-logo">C</div>
+      <div class="firm-text">
+        <span class="firm-name">Citera Practice</span>
+        <span class="firm-sub">Бюро научной экспертизы</span>
+      </div>
     </div>
     <nav class="nav">
       <a href="index.html" class="active">Практика</a>
@@ -294,8 +417,8 @@
     <section class="hero-grid">
       <div class="rail">§ 01<br/>Резюме</div>
       <div class="hero-content">
-        <h1>Профессиональная экспертиза научных и квалификационных работ.</h1>
-        <p class="lede">Citera оказывает консультационные услуги авторам диссертаций, статей и проектных заявок: содержательное рецензирование, анализ библиографии, структурная редактура и проверка соответствия требованиям издания или совета.</p>
+        <h1>Профессиональная<em> экспертиза</em> научных и квалификационных работ.</h1>
+        <p class="lede">Оказываем консультационные услуги авторам диссертаций, статей и проектных заявок: содержательное рецензирование, анализ библиографии, структурная редактура и проверка соответствия требованиям издания или совета.</p>
         <div class="cta-row">
           <a href="waitlist.html" class="btn-primary">Записаться на консультацию</a>
           <a href="#process" class="btn-ghost">Узнать о порядке работы</a>
@@ -324,12 +447,15 @@
 
     <section>
       <span class="section-title">§ 02 — Направления практики</span>
-      <h2 class="section-h">Четыре линии экспертизы, которые покрывают весь жизненный цикл работы — от черновика до подачи в журнал или совет.</h2>
+      <h2 class="section-h">Четыре линии экспертизы, покрывающие весь жизненный цикл работы — от черновика до подачи в журнал или совет.</h2>
 
       <div class="practice-grid">
         <article class="practice">
           <div class="pr-num">A.01</div>
           <div>
+            <div class="pr-icon">
+              <svg viewBox="0 0 24 24"><path d="M9 12h6m-3-3v6m-7 4h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
             <div class="pr-title">Содержательное рецензирование</div>
             <p class="pr-body">Оценка обоснованности гипотезы, корректности методологии, согласованности выводов с полученными данными и научной новизны работы.</p>
           </div>
@@ -337,6 +463,9 @@
         <article class="practice">
           <div class="pr-num">A.02</div>
           <div>
+            <div class="pr-icon">
+              <svg viewBox="0 0 24 24"><path d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
             <div class="pr-title">Аудит ссылочного аппарата</div>
             <p class="pr-body">Проверка соответствия ссылки утверждению, актуальности и авторитетности источников, полноты библиографии и её оформления по ГОСТ или APA.</p>
           </div>
@@ -344,6 +473,9 @@
         <article class="practice">
           <div class="pr-num">A.03</div>
           <div>
+            <div class="pr-icon">
+              <svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
             <div class="pr-title">Структурная редактура</div>
             <p class="pr-body">Анализ композиции и логики изложения, баланса разделов, корректности переходов и соответствия структуры требованиям издания или диссертационного совета.</p>
           </div>
@@ -351,6 +483,9 @@
         <article class="practice">
           <div class="pr-num">A.04</div>
           <div>
+            <div class="pr-icon">
+              <svg viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
             <div class="pr-title">Издательская подготовка</div>
             <p class="pr-body">Унификация терминологии, проверка формул и обозначений, оформление таблиц, рисунков и подписей в соответствии с требованиями целевого журнала.</p>
           </div>
@@ -358,28 +493,34 @@
       </div>
     </section>
 
-    <section id="process" style="margin-top: 4rem;">
+    <div class="divider">
+      <div class="divider-line"></div>
+      <div class="divider-diamond"></div>
+      <div class="divider-line"></div>
+    </div>
+
+    <section id="process">
       <span class="section-title">§ 03 — Порядок работы</span>
       <h2 class="section-h">Как устроена консультация.</h2>
 
       <div class="process">
         <div class="step">
-          <div class="step-num">ШАГ 01</div>
+          <div class="step-num">Шаг 01</div>
           <div class="step-title">Заявка</div>
           <p class="step-body">Вы загружаете рукопись и указываете целевое издание или совет.</p>
         </div>
         <div class="step">
-          <div class="step-num">ШАГ 02</div>
+          <div class="step-num">Шаг 02</div>
           <div class="step-title">Распределение</div>
           <p class="step-body">Работу принимает специалист подходящей предметной области.</p>
         </div>
         <div class="step">
-          <div class="step-num">ШАГ 03</div>
+          <div class="step-num">Шаг 03</div>
           <div class="step-title">Заключение</div>
           <p class="step-body">Вы получаете структурированный отчёт по четырём направлениям практики.</p>
         </div>
         <div class="step">
-          <div class="step-num">ШАГ 04</div>
+          <div class="step-num">Шаг 04</div>
           <div class="step-title">Доработка</div>
           <p class="step-body">При необходимости — повторная экспертиза после внесения правок.</p>
         </div>

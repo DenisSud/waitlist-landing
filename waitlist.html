@@ -6,123 +6,159 @@
   <title>Запись на консультацию — Citera Practice</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Outfit:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
     :root {
-      --bg: #fbfaf7;
-      --surface: #ffffff;
-      --surface-secondary: #f4f2ec;
-      --text-primary: #1a1a1a;
-      --text-secondary: #5a5a55;
-      --text-tertiary: #8a8a82;
-      --border: rgba(0, 0, 0, 0.12);
-      --border-strong: rgba(0, 0, 0, 0.28);
-      --accent: #1a1a1a;
+      --bg: #f4efe6;
+      --bg-grain: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      --surface: #faf6ee;
+      --surface-warm: #efe9dc;
+      --text-primary: #1c1e17;
+      --text-secondary: #5a5d4f;
+      --text-tertiary: #8a8d7e;
+      --border: rgba(28, 30, 23, 0.10);
+      --border-strong: rgba(28, 30, 23, 0.22);
+      --accent: #3d5a3e;
+      --accent-hover: #4e7050;
+      --accent-subtle: rgba(61, 90, 62, 0.08);
+      --accent-ghost: rgba(61, 90, 62, 0.06);
       --danger: #a32d2d;
-      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      --font-serif: 'Playfair Display', Georgia, 'Times New Roman', serif;
+      --font-sans: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
       --font-mono: 'JetBrains Mono', 'SF Mono', Monaco, monospace;
     }
-    * { box-sizing: border-box; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
     html, body {
-      margin: 0;
-      padding: 0;
       background: var(--bg);
       color: var(--text-primary);
       font-family: var(--font-sans);
       font-weight: 400;
-      line-height: 1.5;
+      line-height: 1.55;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
     }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: var(--bg-grain);
+      opacity: 0.30;
+      mix-blend-mode: multiply;
+      pointer-events: none;
+      z-index: 0;
+    }
+    body > * { position: relative; z-index: 1; }
 
+    /* ── Header ── */
     .firm-header {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 22px 32px;
-      border-bottom: 0.5px solid var(--border-strong);
-      max-width: 1080px;
-      margin: 0 auto;
+      padding: 20px 48px;
+      border-bottom: 1px solid var(--border-strong);
+      backdrop-filter: blur(12px);
+      background: rgba(244, 239, 230, 0.8);
     }
-    .firm-mark { display: flex; align-items: baseline; gap: 14px; }
-    .firm-name { font-size: 16px; font-weight: 500; letter-spacing: 0.01em; }
+    .firm-mark { display: flex; align-items: center; gap: 16px; }
+    .firm-logo {
+      width: 36px; height: 36px;
+      background: var(--accent);
+      border-radius: 8px;
+      display: flex; align-items: center; justify-content: center;
+      color: #faf6ee;
+      font-family: var(--font-serif);
+      font-size: 18px; font-weight: 600;
+      letter-spacing: -0.02em;
+      flex-shrink: 0;
+    }
+    .firm-text { display: flex; align-items: baseline; gap: 12px; }
+    .firm-name {
+      font-family: var(--font-serif);
+      font-size: 17px; font-weight: 500;
+      letter-spacing: -0.01em;
+    }
     .firm-sub {
-      font-size: 11px; color: var(--text-tertiary);
-      letter-spacing: 0.08em; text-transform: uppercase;
+      font-size: 10px; color: var(--text-tertiary);
+      letter-spacing: 0.10em; text-transform: uppercase;
     }
-    .nav { display: flex; gap: 28px; align-items: center; }
+    .nav { display: flex; gap: 32px; align-items: center; }
     .nav a {
       color: var(--text-secondary);
       text-decoration: none;
-      font-size: 13px;
-      transition: color 0.15s;
+      font-size: 13px; font-weight: 400;
+      letter-spacing: 0.01em;
+      transition: color 0.2s;
     }
-    .nav a:hover { color: var(--text-primary); }
-    .nav a.active { color: var(--text-primary); font-weight: 500; }
+    .nav a:hover { color: var(--accent); }
+    .nav a.active { color: var(--accent); font-weight: 500; }
 
+    /* ── Waitlist layout ── */
     .wait-frame {
-      max-width: 1080px;
+      max-width: 1320px;
       margin: 0 auto;
       display: grid;
-      grid-template-columns: 1fr 1fr;
-      min-height: 640px;
+      grid-template-columns: 5fr 6fr;
+      min-height: 80vh;
     }
     .wait-left {
-      padding: 64px 48px;
-      border-right: 0.5px solid var(--border);
-      background: var(--surface-secondary);
+      padding: 72px 56px;
+      background: var(--surface);
+      border-right: 1px solid var(--border);
     }
-    .wait-right { padding: 64px 48px; }
+    .wait-right { padding: 72px 56px; }
 
     .wait-mark {
       font-family: var(--font-mono);
       font-size: 10px;
-      color: var(--text-tertiary);
+      color: var(--accent);
       letter-spacing: 0.12em;
       text-transform: uppercase;
       padding-top: 16px;
-      border-top: 1px solid var(--text-primary);
+      border-top: 2px solid var(--accent);
       display: inline-block;
       padding-right: 32px;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.75rem;
     }
     .wait-title {
-      font-size: 30px;
+      font-family: var(--font-serif);
+      font-size: 34px;
       font-weight: 500;
       line-height: 1.25;
-      margin: 0 0 1.25rem;
+      margin: 0 0 1.5rem;
       letter-spacing: -0.01em;
     }
     .wait-lede {
-      font-size: 15px;
-      line-height: 1.65;
+      font-size: 15px; font-weight: 300;
+      line-height: 1.7;
       color: var(--text-secondary);
-      margin: 0 0 2.5rem;
+      margin: 0 0 3rem;
     }
 
     .commitments { list-style: none; padding: 0; margin: 0; }
     .commitments li {
       display: grid;
-      grid-template-columns: 28px 1fr;
-      gap: 12px;
-      padding: 16px 0;
-      border-top: 0.5px solid var(--border);
-      font-size: 13px;
-      line-height: 1.6;
+      grid-template-columns: 32px 1fr;
+      gap: 14px;
+      padding: 18px 0;
+      border-top: 1px solid var(--border);
+      font-size: 13px; font-weight: 300;
+      line-height: 1.65;
       color: var(--text-secondary);
     }
-    .commitments li:last-child { border-bottom: 0.5px solid var(--border); }
+    .commitments li:last-child { border-bottom: 1px solid var(--border); }
     .commitments .num {
       font-family: var(--font-mono);
       font-size: 11px;
-      color: var(--text-tertiary);
+      color: var(--accent);
       letter-spacing: 0.06em;
+      padding-top: 2px;
     }
 
-    .form-block { margin-bottom: 1.75rem; }
+    /* ── Form ── */
+    .form-block { margin-bottom: 2rem; }
     .form-block label {
       display: block;
-      font-size: 10px;
+      font-size: 10px; font-weight: 500;
       letter-spacing: 0.12em;
       text-transform: uppercase;
       color: var(--text-tertiary);
@@ -130,61 +166,64 @@
     }
     .field {
       width: 100%;
-      padding: 12px 0;
-      border: none;
-      border-bottom: 0.5px solid var(--border-strong);
-      background: transparent;
+      padding: 14px 16px;
+      border: 1px solid var(--border-strong);
+      border-radius: 10px;
+      background: var(--surface);
       font-family: var(--font-sans);
-      font-size: 15px;
+      font-size: 15px; font-weight: 300;
       color: var(--text-primary);
-      border-radius: 0;
-      transition: border-color 0.15s;
+      transition: all 0.2s;
     }
     .field:focus {
       outline: none;
-      border-bottom-color: var(--text-primary);
-      border-bottom-width: 1px;
+      border-color: var(--accent);
+      box-shadow: 0 0 0 3px var(--accent-subtle);
     }
     .field::placeholder { color: var(--text-tertiary); }
-    .field.error { border-bottom-color: var(--danger); border-bottom-width: 1px; }
+    .field.error { border-color: var(--danger); box-shadow: 0 0 0 3px rgba(163,45,45,0.08); }
 
     select.field {
       appearance: none;
       -webkit-appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='6' viewBox='0 0 10 6'%3E%3Cpath fill='none' stroke='%238a8a82' stroke-width='1' d='M1 1l4 4 4-4'/%3E%3C/svg%3E");
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath fill='none' stroke='%233d5a3e' stroke-width='1.5' d='M1 1l5 5 5-5'/%3E%3C/svg%3E");
       background-repeat: no-repeat;
-      background-position: right 4px center;
-      padding-right: 24px;
+      background-position: right 14px center;
+      padding-right: 40px;
       cursor: pointer;
     }
 
     .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 28px;
+      gap: 20px;
     }
 
     .btn-primary {
       background: var(--accent);
-      color: #fff;
-      border: 0.5px solid var(--accent);
-      padding: 14px 22px;
-      font-size: 13px;
+      color: #faf6ee;
+      border: none;
+      padding: 16px 28px;
+      font-size: 13px; font-weight: 500;
       cursor: pointer;
-      border-radius: 0;
+      border-radius: 10px;
       font-family: var(--font-sans);
-      font-weight: 500;
-      letter-spacing: 0.01em;
+      letter-spacing: 0.02em;
       width: 100%;
-      transition: opacity 0.15s;
+      transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+      box-shadow: 0 1px 3px rgba(61,90,62,0.15), 0 4px 12px rgba(61,90,62,0.10);
     }
-    .btn-primary:hover { opacity: 0.85; }
-    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; }
+    .btn-primary:hover {
+      background: var(--accent-hover);
+      transform: translateY(-1px);
+      box-shadow: 0 2px 6px rgba(61,90,62,0.20), 0 8px 20px rgba(61,90,62,0.15);
+    }
+    .btn-primary:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 
     .privacy-note {
-      font-size: 11px;
+      font-size: 11px; font-weight: 300;
       color: var(--text-tertiary);
-      line-height: 1.6;
+      line-height: 1.65;
       margin-top: 1.25rem;
     }
 
@@ -195,47 +234,50 @@
       min-height: 1em;
     }
 
+    /* ── Success ── */
     .success-card { padding: 0; }
     .success-card .check-mark {
       font-family: var(--font-mono);
       font-size: 10px;
-      color: var(--text-tertiary);
+      color: var(--accent);
       letter-spacing: 0.12em;
       text-transform: uppercase;
       padding-top: 16px;
-      border-top: 1px solid var(--text-primary);
+      border-top: 2px solid var(--accent);
       display: inline-block;
       padding-right: 32px;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.75rem;
     }
     .success-card h2 {
-      font-size: 26px;
+      font-family: var(--font-serif);
+      font-size: 28px;
       font-weight: 500;
       margin: 0 0 1.25rem;
       line-height: 1.3;
-      letter-spacing: -0.005em;
+      letter-spacing: -0.01em;
     }
 
     .receipt {
       background: var(--surface);
-      border: 0.5px solid var(--border-strong);
-      padding: 20px 24px;
+      border: 1px solid var(--border-strong);
+      border-radius: 12px;
+      padding: 24px;
       margin: 1.5rem 0;
     }
     .receipt-row {
       display: flex;
       justify-content: space-between;
       align-items: center;
-      padding: 10px 0;
+      padding: 12px 0;
       font-size: 12px;
-      border-bottom: 0.5px dashed var(--border);
+      border-bottom: 1px dashed var(--border);
     }
     .receipt-row:last-child { border-bottom: none; }
     .receipt-label {
       color: var(--text-tertiary);
       letter-spacing: 0.06em;
       text-transform: uppercase;
-      font-size: 10px;
+      font-size: 10px; font-weight: 500;
     }
     .receipt-val {
       font-family: var(--font-mono);
@@ -244,22 +286,23 @@
     }
 
     .back-link {
-      display: inline-block;
+      display: inline-flex; align-items: center; gap: 6px;
       margin-top: 1.5rem;
       font-size: 13px;
-      color: var(--text-secondary);
+      color: var(--accent);
       text-decoration: none;
-      border-bottom: 0.5px solid var(--border-strong);
-      padding-bottom: 2px;
+      font-weight: 500;
+      transition: gap 0.2s;
     }
-    .back-link:hover { color: var(--text-primary); }
+    .back-link:hover { gap: 10px; }
 
-    @media (max-width: 720px) {
-      .firm-header { padding: 18px 20px; flex-wrap: wrap; gap: 12px; }
+    /* ── Mobile ── */
+    @media (max-width: 900px) {
+      .firm-header { padding: 16px 20px; flex-wrap: wrap; gap: 12px; }
       .wait-frame { grid-template-columns: 1fr; }
-      .wait-left, .wait-right { padding: 36px 20px; border-right: none; }
-      .wait-left { border-bottom: 0.5px solid var(--border); }
-      .wait-title { font-size: 24px; }
+      .wait-left, .wait-right { padding: 44px 24px; border-right: none; }
+      .wait-left { border-bottom: 1px solid var(--border); }
+      .wait-title { font-size: 26px; }
       .form-row { grid-template-columns: 1fr; gap: 0; }
     }
   </style>
@@ -268,8 +311,11 @@
 
   <header class="firm-header">
     <div class="firm-mark">
-      <span class="firm-name">Citera Practice</span>
-      <span class="firm-sub">Бюро научной экспертизы</span>
+      <div class="firm-logo">C</div>
+      <div class="firm-text">
+        <span class="firm-name">Citera Practice</span>
+        <span class="firm-sub">Бюро научной экспертизы</span>
+      </div>
     </div>
     <nav class="nav">
       <a href="index.html">Практика</a>
@@ -332,7 +378,7 @@
       <div id="success-view" style="display: none;" class="success-card">
         <span class="check-mark">§ A.01 — Заявка принята</span>
         <h2>Спасибо. Ваша заявка зафиксирована в журнале практики.</h2>
-        <p style="font-size: 14px; line-height: 1.65; color: var(--text-secondary); margin: 0 0 0.5rem;">Подтверждение направлено на указанный адрес. Мы свяжемся с вами по мере открытия мест в текущем приёмном цикле.</p>
+        <p style="font-size: 14px; line-height: 1.7; color: var(--text-secondary); margin: 0 0 0.5rem; font-weight: 300;">Подтверждение направлено на указанный адрес. Мы свяжемся с вами по мере открытия мест в текущем приёмном цикле.</p>
 
         <div class="receipt">
           <div class="receipt-row"><span class="receipt-label">Адрес</span><span class="receipt-val" id="r-email">—</span></div>
@@ -351,7 +397,7 @@
 
   <script>
     // Backend endpoint — change if you deploy elsewhere.
-    const API_URL = 'http://localhost:8000/api/waitlist';
+    const API_URL = '/api/waitlist';
 
     const $ = (sel) => document.querySelector(sel);
     const emailField = $('#email');
